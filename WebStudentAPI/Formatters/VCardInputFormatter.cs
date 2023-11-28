@@ -5,9 +5,9 @@ using WebStudentAPI.Dtos;
 
 namespace WebStudentAPI.Formatters
 {
-    public class VcardInputFormatter : TextInputFormatter
+    public class VCardInputFormatter : TextInputFormatter
     {
-        public VcardInputFormatter()
+        public VCardInputFormatter()
         {
             SupportedMediaTypes.Add(MediaTypeHeaderValue.Parse("text/vcard"));
 
@@ -24,7 +24,7 @@ namespace WebStudentAPI.Formatters
             var httpContext = context.HttpContext;
             var serviceProvider = httpContext.RequestServices;
 
-            var logger = serviceProvider.GetRequiredService<ILogger<VcardInputFormatter>>();
+            var logger = serviceProvider.GetRequiredService<ILogger<VCardInputFormatter>>();
 
             using var reader = new StreamReader(httpContext.Request.Body, effectiveEncoding);
             string? nameLine = null;

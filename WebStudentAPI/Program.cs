@@ -15,7 +15,13 @@ var builder = WebApplication.CreateBuilder(args);
 //    options.InputFormatters.Add(new TextCsvInputFormatter());
 //});
 // Add services to the container.
-
+builder.Services.AddControllers(options =>
+{
+    options.InputFormatters.Insert(0, new VCardInputFormatter());
+    options.OutputFormatters.Insert(0,new TextCsvOutputFormatter());
+    options.InputFormatters.Insert(0,new TextCsvInputFormatter());
+    options.OutputFormatters.Insert(0, new VCardOutputFormatter());
+});
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

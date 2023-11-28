@@ -27,24 +27,26 @@ namespace WebStudentAPI.Controllers
         }
 
 
-        // GET: api/<StudentController>
-        [HttpGet("Best")]
-        public IEnumerable<StudentDto> GetBestStudents()
-        {
-            var items = _studentService.GetAll().Where(s => s.Score>90);
-            var dataToReturn = items.Select(a =>
-            {
-                return new StudentDto
-                {
-                    Id = a.Id,
-                    Age = a.Age,
-                    Fullname = a.Fullname,
-                    Score = (int)a.Score,
-                    SeriaNo = a.SeriaNo
-                };
-            });
-            return dataToReturn;
-        }
+        //public IActionResult Post([FromBody] StudentAddDto value)
+        //{
+        //    try
+        //    {
+        //        var entity = new Student
+        //        {
+        //            Age= value.Age,
+        //            Fullname= value.Fullname,
+        //            Score= value.Score,
+        //            SeriaNo = value.SeriaNo
+        //        };
+        //        _studentService.Add(entity);
+        //        return Ok(entity);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(ex.Message);
+        //    }
+        //}
+
 
         // GET api/<StudentController>/5
         [HttpGet("{id}")]
