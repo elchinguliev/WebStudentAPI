@@ -1,3 +1,6 @@
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using WebStudentAPI.Data;
 using WebStudentAPI.Formatters;
@@ -8,12 +11,7 @@ using WebStudentAPI.Services.Concrete;
 
 var builder = WebApplication.CreateBuilder(args);
 
-//builder.Services.AddControllers(options =>
-//{
-//    options.OutputFormatters.Add(new VCardOutputFormatter());
-//    options.OutputFormatters.Add(new TextCsvOutputFormatter());
-//    options.InputFormatters.Add(new TextCsvInputFormatter());
-//});
+
 // Add services to the container.
 builder.Services.AddControllers(options =>
 {
@@ -36,6 +34,15 @@ builder.Services.AddDbContext<StudentDBContext>(opt =>
 });
 
 
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme,
+    options => {
+        options.LoginPath = "/Account/SignIn";
+        options.LogoutPath = "/Account/SignOut";
+    });
+
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -44,6 +51,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.UseAuthentication();
+
+app.UseMiddleware<WebStudentAPI.MiddleWares.AuthenticationMiddlewaree>();
 
 app.UseHttpsRedirection();
 

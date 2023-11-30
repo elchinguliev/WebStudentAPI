@@ -1,4 +1,5 @@
-﻿using WebStudentAPI.Data;
+﻿using System.Linq.Expressions;
+using WebStudentAPI.Data;
 using WebStudentAPI.Entities;
 using WebStudentAPI.Repositories.Abstract;
 
@@ -25,9 +26,9 @@ namespace WebStudentAPI.Repositories.Concrete
             _context.SaveChanges();
         }
 
-        public Student Get(int id)
+        public Student Get(Expression<Func<Student, bool>> expression)
         {
-            var student = _context.Students.SingleOrDefault(s => s.Id == id);
+            var student = _context.Students.SingleOrDefault(expression);
             return student;
         }
 

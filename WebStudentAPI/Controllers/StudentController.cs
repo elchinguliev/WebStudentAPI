@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using WebStudentAPI.Dtos;
 using WebStudentAPI.Entities;
 using WebStudentAPI.Services.Abstract;
 
 namespace WebStudentAPI.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class StudentController : ControllerBase
@@ -50,9 +52,10 @@ namespace WebStudentAPI.Controllers
 
         // GET api/<StudentController>/5
         [HttpGet("{id}")]
+        [Authorize]
         public StudentDto Get(int id)
         {
-            var item = _studentService.Get(id);
+            var item = _studentService.Get(s=>s.Id==id);
             var dataToReturn = new StudentDto
             {
                 Id = item.Id,
@@ -92,7 +95,7 @@ namespace WebStudentAPI.Controllers
         {
             try
             {
-                var item = _studentService.Get(id);
+                var item = _studentService.Get(s=>s.Id==id);
                 item.SeriaNo = value.SeriaNo;
                 item.Age = value.Age;
                 item.Fullname = value.Fullname;
